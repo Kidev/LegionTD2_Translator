@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="csrf-token" content="defELqqQsvcp8H5DFskoLPWhK9c9psVjAa9JhEfG">
+  <title>Legion TD 2 Developer Portal</title>
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://developer.legiontd2.com/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="https://developer.legiontd2.com/favicon.ico">
+
+  <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
+  <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+
+  <link href="https://developer.legiontd2.com/black/css/nucleo-icons.css" rel="stylesheet" />
+
+  <link rel="stylesheet" href="https://developer.legiontd2.com/css/btf.css">
+  <link rel="stylesheet" href="https://developer.legiontd2.com/css/style.css">
+  <link rel="stylesheet" href="https://developer.legiontd2.com/css/flag-icon.css">
+  <link href="https://developer.legiontd2.com/black/css/black-dashboard.css?v=1.0.3" rel="stylesheet" />
+  <link href="https://developer.legiontd2.com/black/css/theme.css" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="css/xbbcode.css">
+</head>
+<body class="">
+<nav class="navbar navbar-expand-lg navbar-absolute navbar-transparent fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-wrapper">
+      <div class="navbar-toggle d-inline">
+        <button type="button" class="navbar-toggler">
+          <span class="navbar-toggler-bar bar1"></span>
+          <span class="navbar-toggler-bar bar2"></span>
+          <span class="navbar-toggler-bar bar3"></span>
+        </button>
+      </div>
+      <a class="navbar-brand" href="#"><img src='https://cdn.legiontd2.com/icons/Coach/StandardGameCoach40.png'/><span style="margin-left: 5px;">Coach's Translation Tool</span></a>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-bar navbar-kebab"></span>
+      <span class="navbar-toggler-bar navbar-kebab"></span>
+      <span class="navbar-toggler-bar navbar-kebab"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navigation">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a href="https://developer.legiontd2.com/home" class="nav-link text-primary">
+            <i class="tim-icons icon-minimal-left"></i> Back to Dashboard
+          </a>
+        </li>
+        <li class="nav-item ">
+          <a href="https://developer.legiontd2.com/register" class="nav-link">
+            <i class="tim-icons icon-laptop"></i> Register
+          </a>
+        </li>
+        <li class="nav-item ">
+          <a href="https://developer.legiontd2.com/login" class="nav-link">
+            <i class="tim-icons icon-single-02"></i> Login
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="wrapper wrapper-full-page">
+  <div class="full-page ">
+    <div class="content">
+      <div class="container">
+        <style>
+          #rawText {
+            width: 100%; height: fit-content; min-height: 100px; background-color:transparent; color: white;
+          }
+          #rawTextTranslateMe {
+            width: 100%; height: fit-content; min-height: 100px; background-color:transparent; color: white;
+          }
+
+          #convertedText {
+            width: 100%; height: 100%; min-height: 100px; background-color:transparent; color: white; border-color: gray; overflow-y:auto;
+          }
+          #convertedTranslatedText {
+            width: 100%; height: 100%; min-height: 100px; background-color:transparent; color: white; border-color: gray; overflow-y:auto;
+          }
+
+          body{
+            overflow: auto;
+          }
+
+          .apex-data{
+            margin: 2px;
+            padding: 0 5px;
+            display:inline-block;
+            background-color: #464646;
+            border: 1px dashed #707070;
+          }
+        </style>
+        <div class="row">
+          <div class="col-md-12">
+
+            <div>
+
+              <input name="Import CSV" type="file" id="csvFile" title="Import CSV file to translate" accept=".csv" height="0" hidden="true" />
+              <button text="Import CSV" id="csvFileButton" onclick="csvFile.click()" title="Import CSV file to translate" accept=".csv" style="margin-bottom: 5px; float: left;">Import CSV</button>
+
+              <label for="parser-mode-select" style="float: left; margin-top: 3px; margin-left: 40px; margin-right: 5px ">Parser:</label>
+              <select id="parser-mode-select" style="float: left; margin-top: 3px; margin-bottom: 0px;">
+                <option value="in_game" selected>In Game</option>
+                <option value="bbcode">Steam</option>
+              </select>
+
+              <button name="get-updated-csv" id="button_get_csv" title="Download CSV updated with latest changes" style="float: right;">
+                Download updated CSV
+              </button>
+
+            </div>
+
+            <br>
+
+            <div class="card" style="min-height: 400px">
+
+
+
+
+              <div class="card-body">
+
+                <div class="row" style="outline-style:solid; outline-width: thin; margin-left: 3px; margin-right: 3px; outline-offset: 5px; ">
+
+                  <button name="prev-empty-entry" id="previous_empty_button" title="Previous empty line" style="margin: 1px;">⦴</button>
+                  <button name="prev-translate-entry" id="previous_line_button" title="Previous line" style="margin: 1px;">🡄</button>
+                  <div class="column" style="width: 60px; left: 50%; text-align: center;" id="current_line_display">
+                  <p id="current_line_no" style="bottom: 0%; margin-top: -6px; margin-bottom: -12px; font-size: large;">0</p>
+                  <br>
+                  <p id="total_lines_no" style="top: 100%; margin: -15px; font-size: small; font-weight: lighter">0</p>
+                  </div>
+                  <button name="next-translate-entry" id="next_line_button" title="Next line" style="margin: 1px;">🡆</button>
+                  <button name="next-empty-entry" id="next_empty_button" title="Next empty line" style="margin: 1px;">⦳</button>
+
+                  <div style="alignment: left; margin-top: 5px; text-align: left; float: left; width: 50%; margin-left: 40px;">
+                    <span id="lastCommentFromDevToolTip" title="">🛈</span>
+                    <span id="lineLastDescUpdate"></span>
+                  </div>
+                  <div style="alignment: left; text-align: left; margin-top: 10px; margin-right: 5px; margin-left: 40px;">🕜 Updated: <span id="lineLastUpdateTime"></span></div>
+
+                </div>
+
+                <br><br>
+
+                <div class="row" style="margin-top: -20px">
+                  <div class="col-md-6">
+                    <p style="font-weight: bold">Raw source:</p>
+                    <textarea id="rawText" readonly></textarea>
+                  </div>
+                  <div class="col-md-6">
+                    <p style="font-weight: bold">Preview:</p>
+                    <div id="convertedText"></div>
+                  </div>
+                </div>
+
+                <hr>
+
+                <div class="row" style="margin-top: -10px">
+                  <div class="col-md-6">
+                    <p style="font-weight: bold">Raw translation:</p>
+                    <textarea id="rawTextTranslateMe"></textarea>
+                  </div>
+                  <div class="col-md-6">
+                    <p style="font-weight: bold">Preview:</p>
+                    <div id="convertedTranslatedText"></div>
+                  </div>
+                </div>
+
+
+              </div>
+
+            </div>
+
+            <h5 class="title" style="margin-top: -20px">
+              You can download translation files from the <a href="https://legiontd2.com/translate" target="_blank">Google Drive</a>
+            </h5>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <div class="container-fluid">
+        <ul class="nav">
+          <li class="nav-item">
+            <a href="https://swagger.legiontd2.com/" target="blank" class="nav-link">
+              API Documentation
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="http://legiontd2.com/support" target="blank" class="nav-link">
+              Legion TD 2 Support
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="https://discord.gg/legiontd2" target="blank" class="nav-link">
+              Legion TD 2 Discord
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/translate" target="blank" class="nav-link">
+              Translation tool
+            </a>
+          </li>
+        </ul>
+        <div class="copyright">
+          &copy; 2022 AutoAttack Games &amp; Kidev. Original Design by
+          <a href="https://creative-tim.com" target="_blank">Creative Tim</a> &amp;
+          <a href="https://updivision.com" target="_blank">Updivision</a>.
+        </div>
+      </div>
+    </footer>
+  </div>
+</div>
+<script src="https://developer.legiontd2.com/black/js/core/jquery.min.js"></script>
+<script src="https://developer.legiontd2.com/black/js/core/popper.min.js"></script>
+<script src="https://developer.legiontd2.com/black/js/core/bootstrap.min.js"></script>
+<script src="https://developer.legiontd2.com/black/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+<script src="js/xbbcode.js"></script>
+
+
+
+<script src="https://developer.legiontd2.com/black/js/plugins/bootstrap-notify.js"></script>
+<script src="https://developer.legiontd2.com/black/js/black-dashboard.min.js?v=1.0.0"></script>
+<script src="https://developer.legiontd2.com/black/js/theme.js"></script>
+<script>
+  $(document).ready(function () {
+    $().ready(function () {
+      $sidebar = $('.sidebar');
+      $navbar = $('.navbar');
+      $main_panel = $('.main-panel');
+
+      $full_page = $('.full-page');
+
+      $sidebar_responsive = $('body > .navbar-collapse');
+      sidebar_mini_active = true;
+      white_color = false;
+
+      window_width = $(window).width();
+
+      fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
+
+      $('.fixed-plugin a').click(function (event) {
+        if ($(this).hasClass('switch-trigger')) {
+          if (event.stopPropagation) {
+            event.stopPropagation();
+          } else if (window.event) {
+            window.event.cancelBubble = true;
+          }
+        }
+      });
+
+      $('.fixed-plugin .background-color span').click(function () {
+        $(this).siblings().removeClass('active');
+        $(this).addClass('active');
+
+        var new_color = $(this).data('color');
+
+        if ($sidebar.length != 0) {
+          $sidebar.attr('data', new_color);
+        }
+
+        if ($main_panel.length != 0) {
+          $main_panel.attr('data', new_color);
+        }
+
+        if ($full_page.length != 0) {
+          $full_page.attr('filter-color', new_color);
+        }
+
+        if ($sidebar_responsive.length != 0) {
+          $sidebar_responsive.attr('data', new_color);
+        }
+      });
+
+      $('.switch-sidebar-mini input').on("switchChange.bootstrapSwitch", function () {
+        var $btn = $(this);
+
+        if (sidebar_mini_active == true) {
+          $('body').removeClass('sidebar-mini');
+          sidebar_mini_active = false;
+          blackDashboard.showSidebarMessage('Sidebar mini deactivated...');
+        } else {
+          $('body').addClass('sidebar-mini');
+          sidebar_mini_active = true;
+          blackDashboard.showSidebarMessage('Sidebar mini activated...');
+        }
+
+        // we simulate the window Resize so the charts will get updated in realtime.
+        var simulateWindowResize = setInterval(function () {
+          window.dispatchEvent(new Event('resize'));
+        }, 180);
+
+        // we stop the simulation of Window Resize after the animations are completed
+        setTimeout(function () {
+          clearInterval(simulateWindowResize);
+        }, 1000);
+      });
+
+      $('.switch-change-color input').on("switchChange.bootstrapSwitch", function () {
+        var $btn = $(this);
+
+        if (white_color == true) {
+          $('body').addClass('change-background');
+          setTimeout(function () {
+            $('body').removeClass('change-background');
+            $('body').removeClass('white-content');
+          }, 900);
+          white_color = false;
+        } else {
+          $('body').addClass('change-background');
+          setTimeout(function () {
+            $('body').removeClass('change-background');
+            $('body').addClass('white-content');
+          }, 900);
+
+          white_color = true;
+        }
+      });
+    });
+  });
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="https://developer.legiontd2.com/black/js/plugins/chartjs.min.js"></script>
+<script src="https://unpkg.com/papaparse@5.3.2/papaparse.min.js"></script>
+
+<script>
+
+  let data_array = [];
+  let data_headers = [];
+  let current_line = 1; // always skip 0 as its the headers line
+
+  function loadedNewDataFile() {
+    current_line = 1;
+
+    updateLineDisplay();
+    updateRawData();
+  }
+
+  function updateLineDisplay() {
+    $("#current_line_no").text(current_line);
+    $("#total_lines_no").text(data_array.length);
+  }
+
+  function updateRawData() {
+    $("#rawText").val(data_array[current_line][data_headers[3]]);
+    $("#rawTextTranslateMe").val(data_array[current_line][data_headers[4]]);
+
+    $("#lastCommentFromDevToolTip").prop('title', data_array[current_line][data_headers[5]]);
+
+    $("#lineLastDescUpdate").html(data_array[current_line][data_headers[2]] + " (" + data_array[current_line][data_headers[1]] + ")");
+
+    $("#lineLastUpdateTime").html(data_array[current_line][data_headers[0]]);
+
+    convertText();
+    convertTextTranslateMe();
+  }
+
+  function swapDataToLine(line) {
+    // update translated text if changed
+    data_array[current_line][data_headers[4]] = $("#rawTextTranslateMe").val();
+    current_line = line;
+
+    updateLineDisplay();
+    updateRawData();
+  }
+
+  function convertTextTranslateMe() {
+    parseTexts("#rawTextTranslateMe", "#convertedTranslatedText");
+  }
+
+  function convertText(){
+    parseTexts("#rawText", "#convertedText");
+  }
+
+  function parseTexts(rawID, previewID){
+
+    var result = $(rawID).val();
+
+    if ($("#parser-mode-select").val() === "bbcode") {
+
+      result = XBBCODE.process({
+        text: result,
+        removeMisalignedTags: false,
+        addInLineBreaks: false
+      }).html;
+
+    } else {
+
+      result = result.replace(/&/g,"&amp;");
+      result = result.replace(/\</g,"&lt;");
+      result = result.replace(/\>/g,"&gt;");
+      result = result.replace(/\[b\]/gm,"<b>");
+      result = result.replace(/\[\/b\]/gm,"</b>");
+      result = result.replace(/\[bb\]/g,"<span class='bb'>");
+      result = result.replace(/\[\/bb\]/g,"</span>");
+      result = result.replace(/\|n/g,"<br />");
+      result = result.replace(/\|amp/g,"&");
+      result = result.replace(/\[ss\]/g,"<span class='ss'>");
+      result = result.replace(/\[\/ss\]/g,"</span>");
+      result = result.replace(/\|emoji\(([a-zA-Z0-9\/._]+)\)/g,"<img class='emoji-icon' src='https://cdn.legiontd2.com/emotes/$1.png' />");
+      result = result.replace(/\|bigemoji\(([a-zA-Z0-9\/._]+)\)/g,"<img class='emoji-icon-big' src='https://cdn.legiontd2.com/emotes/$1.png' />");
+      result = result.replace(/\|skullimg\(([a-zA-Z0-9\/._()-]+)\.png\)/g,"<span class='skull-img'><img class='tooltip-icon' src='https://cdn.legiontd2.com/$1.png' /></span>");
+      result = result.replace(/\|desc\(([a-zA-Z0-9\/._,%]+)\)/g,"<span class='apex-data' title='This will be replaced with the description in game'>$1</span>");
+      result = result.replace(/\|proper\(([a-zA-Z0-9\/._,%]+)\)/g,"<span class='apex-data' title='This will be replaced with the proper name in game'>$1</span>");
+      result = result.replace(/\|item\(([a-zA-Z0-9\/._,%]+)\)/g,"<span class='apex-data' title='This will be replaced with the item icon + name in game'>$1</span>");
+      result = result.replace(/\|img\(([a-zA-Z0-9\/._()-]+)\.png\)/g,"<img class='tooltip-icon' src='https://cdn.legiontd2.com/$1.png' />");
+      result = result.replace(/\|smallimg\(([a-zA-Z0-9\/._()-]+)\.png\)/g,"<img class='tooltip-icon-small' src='https://cdn.legiontd2.com/$1.png' />");
+      result = result.replace(/\|graphic\(([a-zA-Z0-9\/\-._]+)\)/g,"<img src='https://cdn.legiontd2.com/$1' />");
+      result = result.replace(/\|bigimg\(([a-zA-Z0-9\/\-._]+)\)/g,"<img src='https://cdn.legiontd2.com/$1' style='border: 1px solid rgba(218, 251, 248, 0.5); margin: 3px;' />");
+      result = result.replace(/\|splash\(([a-zA-Z0-9\/\-._]+)\)/g,"<img class='styledtext-splash-image' src='https://cdn.legiontd2.com/$1' />");
+      result = result.replace(/\|video\(([a-zA-Z0-9\/\-._]+)\)/g,"<span class='apex-data' title='This will be replaced with a video in game'>$1</span>");
+      result = result.replace(/\|flag\(([a-zA-Z0-9\/\-._]+)\)/g,"<span class='simple-tooltip flag-icon small flag-icon-$1'><span class='tooltiptext narrow'>Country name</span></span>");
+      result = result.replace(/\|c\(([a-zA-Z0-9]{6})\):(.*?)\|r/g,"<span style='color: #$1'>$2</span>");
+      result = result.replace(/:([a-z]+):/g,"<img class='emoji-icon' src='https://cdn.legiontd2.com/emotes/$1.png' />");
+
+    }
+
+    $(previewID).html(result);
+  }
+  function copyToClipboard() {
+    /* Get the text field */
+    var copyText = $("#apikeyvalue").data("key");
+    /* Copy the text inside the text field */
+    navigator.clipboard.writeText(copyText);
+
+    $(".showKey").tooltip('show');
+    setTimeout(function () { $(".showKey").tooltip('hide'); }, 3000);
+  }
+
+  $("#csvFile").on("change", function() {
+
+    const input = this.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+      const text = e.target.result;
+      const data = csvToArray(text);
+      data_array = data;
+      data_headers = Object.keys(data[0]);
+      loadedNewDataFile();
+    };
+
+    reader.readAsText(input);
+  });
+
+  $("#parser-mode-select").change(function() {
+    convertText();
+    convertTextTranslateMe();
+  });
+
+  function goToNextLine() {
+    if (current_line < data_array.length - 1) {
+      swapDataToLine(current_line + 1);
+    }
+  }
+  function goToPreviousLine() {
+    if (current_line > 1) {
+      swapDataToLine(current_line - 1);
+    }
+  }
+  function goToNextEmptyLine() {
+    if (current_line < data_array.length - 1) {
+      let count = 0;
+      for (count = 0; current_line + count < data_array.length - 1; count++) {
+        let tmp_line = current_line + count;
+        if (data_array[tmp_line][data_headers[4]].trim().length === 0) {
+          swapDataToLine(tmp_line);
+        }
+      }
+    }
+  }
+  function goToPreviousEmptyLine() {
+    if (current_line > 1) {
+      let count = 0;
+      for (count = 0; current_line - count >= 1; count++) {
+        let tmp_line = current_line - count;
+        if (data_array[tmp_line][data_headers[4]].trim().length === 0) {
+          swapDataToLine(tmp_line);
+        }
+      }
+    }
+  }
+
+  $("#previous_line_button").click(function() {
+    goToPreviousLine();
+  });
+  $("#previous_empty_button").click(function() {
+    goToPreviousEmptyLine();
+  });
+  $("#next_line_button").click(function() {
+    goToNextLine();
+  });
+  $("#next_empty_button").click(function() {
+    goToNextEmptyLine();
+  });
+
+  $(document).keydown(function(event) {
+    if (event.which === 37) {
+      goToPreviousLine();
+    } else if (event.which === 39) {
+      goToNextLine();
+    }
+  });
+
+
+  $(document).keydown(function(event) {
+    if (event.which === 40) {
+      goToPreviousEmptyLine();
+    } else if (event.which === 38) {
+      goToNextEmptyLine();
+    }
+  });
+
+
+  $("#button_get_csv").click(function() {
+    let new_csv = Papa.unparse(data_array, {
+
+    });
+
+    const blob = new Blob([new_csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.download = "data.csv";
+    link.href = url;
+    link.click();
+  });
+
+  $(function () {
+    $("#rawText").keyup(function () {
+      convertText();
+    });
+    convertText();
+  });
+
+  $(function () {
+    $("#rawTextTranslateMe").keyup(function () {
+      convertTextTranslateMe();
+    });
+    convertTextTranslateMe();
+  });
+
+  function csvToArray(str) {
+    return Papa.parse(str, {
+      delimiter: "",	// auto-detect
+      newline: "",	// auto-detect
+      quoteChar: '"',
+      escapeChar: '"',
+      header: true,
+      transformHeader: undefined,
+      dynamicTyping: false,
+      preview: 0,
+      encoding: "UTF-8",
+      worker: false,
+      comments: false,
+      step: undefined,
+      complete: undefined,
+      error: undefined,
+      download: false,
+      downloadRequestHeaders: undefined,
+      downloadRequestBody: undefined,
+      skipEmptyLines: false,
+      chunk: undefined,
+      chunkSize: undefined,
+      fastMode: undefined,
+      beforeFirstChunk: undefined,
+      withCredentials: undefined,
+      transform: undefined,
+      delimitersToGuess: [',', '\t', '|', ';', Papa.RECORD_SEP, Papa.UNIT_SEP]
+    }).data;
+  }
+</script>
+
+
+</body>
+</html>
