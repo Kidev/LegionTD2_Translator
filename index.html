@@ -97,8 +97,8 @@
 
             <div>
 
-              <input name="Import CSV" type="file" id="csvFile" title="Import CSV file to translate" accept=".csv" height="0" hidden="true" />
-              <button text="Import CSV" id="csvFileButton" onclick="csvFile.click()" title="Import CSV file to translate" accept=".csv" style="margin-bottom: 5px; float: left;">Import CSV</button>
+              <input name="Load translations" type="file" id="csvFile" title="Import translations file to begin the translations" accept=".csv" height="0" hidden="true" />
+              <button id="csvFileButton" onclick="csvFile.click()" title="Import translations file to begin the translations" style="margin-bottom: 5px; float: left;">Load translations</button>
 
               <label for="parser-mode-select" style="float: left; margin-top: 3px; margin-left: 40px; margin-right: 5px ">Parser:</label>
               <select id="parser-mode-select" style="float: left; margin-top: 3px; margin-bottom: 0px;">
@@ -107,7 +107,7 @@
               </select>
 
               <button name="get-updated-csv" id="button_get_csv" title="Download Excel sheet updated with latest changes" style="float: right;">
-                Download updated sheet
+                Save translations
               </button>
 
             </div>
@@ -133,11 +133,11 @@
                   <button name="next-translate-entry" id="next_line_button" title="Next line" style="margin: 1px;">🡆</button>
                   <button name="next-empty-entry" id="next_empty_button" title="Next empty line" style="margin: 1px;">⦳</button>
 
-                  <div style="alignment: left; margin-top: 5px; text-align: left; float: left; width: 50%; margin-left: 40px;">
-                    <span id="lastCommentFromDevToolTip" title="">🛈</span>
-                    <span id="lineLastDescUpdate"></span>
+                  <div style="alignment: left; margin-top: 10px; text-align: left; margin-left: 40px;">
+                    <span id="lastCommentFromDevToolTip" title=""><span style="color:#9094a0; font-weight: bolder;">ⓘ</span></span>
+                    <span id="lineLastDescUpdate" style="color:#9094a0; min-width: 200px">&nbsp;&nbsp;&nbsp;</span>
                   </div>
-                  <div style="alignment: left; text-align: left; margin-top: 10px; margin-right: 5px; margin-left: 40px;">🕜 Updated: <span id="lineLastUpdateTime"></span></div>
+                  <div style="alignment: left; color:#9094a0;  text-align: left; margin-top: 10px; margin-right: 5px; margin-left: 40px;"><span id="lineLastUpdateTime"></span></div>
 
                 </div>
 
@@ -373,9 +373,13 @@
 
     $("#lastCommentFromDevToolTip").prop('title', data_array[current_line][data_headers[5]]);
 
-    $("#lineLastDescUpdate").html(data_array[current_line][data_headers[2]] + " (" + data_array[current_line][data_headers[1]] + ")");
+    $("#lineLastDescUpdate").html(data_array[current_line][data_headers[1]] + " (" + data_array[current_line][data_headers[2]] + ")");
 
-    $("#lineLastUpdateTime").html(data_array[current_line][data_headers[0]]);
+    if (data_array[current_line][data_headers[0]].trim().length > 0) {
+      $("#lineLastUpdateTime").html("🕜 Updated: " + data_array[current_line][data_headers[0]]);
+    } else {
+      $("#lineLastUpdateTime").html("");
+    }
 
     convertText();
     convertTextTranslateMe();
@@ -491,6 +495,7 @@
         let tmp_line = current_line + count;
         if (data_array[tmp_line][data_headers[4]].trim().length === 0) {
           swapDataToLine(tmp_line);
+          break;
         }
       }
     }
@@ -502,6 +507,7 @@
         let tmp_line = current_line - count;
         if (data_array[tmp_line][data_headers[4]].trim().length === 0) {
           swapDataToLine(tmp_line);
+          break;
         }
       }
     }
