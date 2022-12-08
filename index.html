@@ -106,8 +106,8 @@
                 <option value="bbcode">Steam</option>
               </select>
 
-              <button name="get-updated-csv" id="button_get_csv" title="Download CSV updated with latest changes" style="float: right;">
-                Download updated CSV
+              <button name="get-updated-csv" id="button_get_csv" title="Download Excel sheet updated with latest changes" style="float: right;">
+                Download updated sheet
               </button>
 
             </div>
@@ -326,6 +326,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script src="https://developer.legiontd2.com/black/js/plugins/chartjs.min.js"></script>
 <script src="https://unpkg.com/papaparse@5.3.2/papaparse.min.js"></script>
+<script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+
 
 <script>
 
@@ -537,17 +539,40 @@
 
 
   $("#button_get_csv").click(function() {
-    let new_csv = Papa.unparse(data_array, {
 
-    });
+    if(typeof XLSX == 'undefined') XLSX = require('xlsx');
+    /* make the worksheet */
+    var ws = XLSX.utils.json_to_sheet(data_array);
 
-    const blob = new Blob([new_csv], { type: "text/csv;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
+    /* add to workbook */
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Translations");
 
-    const link = document.createElement("a");
-    link.download = ("translations_updated_" + Date.now() + ".csv");
-    link.href = url;
-    link.click();
+    /* generate an XLSX file */
+    XLSX.writeFile(wb, "updated_translations.xlsx");
+
+
+    //let new_csv = Papa.unparse(data_array, {});
+
+    /*
+
+      const XLSX = require('xlsx')
+
+  // array of objects to save in Excel
+  let binary_univers = [{'name': 'Hi','value':1},{'name':'Bye','value':0}]
+
+  let binaryWS = XLSX.utils.json_to_sheet(binary_univers);
+
+  // Create a new Workbook
+  var wb = XLSX.utils.book_new()
+
+  // Name your sheet
+  XLSX.utils.book_append_sheet(wb, binaryWS, 'Binary values')
+
+  // export your excel
+  XLSX.writeFile(wb, 'Binaire.xlsx');
+
+     */
   });
 
   $(function () {
