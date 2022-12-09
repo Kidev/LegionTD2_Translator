@@ -93,14 +93,43 @@ var XBBCODE = (function() {
      * --------------------------------------------------------------------------- */
 
     tags = {
-        "b": {
+          "b": {
+              openTag: function(params,content) {
+                  return '<span class="xbbcode-b">';
+              },
+              closeTag: function(params,content) {
+                  return '</span>';
+              }
+          },
+
+         "h1": {
             openTag: function(params,content) {
-                return '<span class="xbbcode-b">';
+              return '<h1 class="xbbcode-h1">';
             },
             closeTag: function(params,content) {
-                return '</span>';
+              return '</h1>';
             }
+         },
+
+        "h2": {
+          openTag: function(params,content) {
+            return '<h2 class="xbbcode-h2">';
+          },
+          closeTag: function(params,content) {
+            return '</h2>';
+          }
         },
+
+        "h3": {
+          openTag: function(params,content) {
+            return '<h3 class="xbbcode-h3">';
+          },
+          closeTag: function(params,content) {
+            return '</h3>';
+          }
+        },
+
+
         /*
             This tag does nothing and is here mostly to be used as a classification for
             the bbcode input when evaluating parent-child tag relationships
@@ -134,7 +163,7 @@ var XBBCODE = (function() {
         "color": {
             openTag: function(params,content) {
                 params = params || '';
-                
+
                 var colorCode = (params.substr(1)).toLowerCase() || "black";
                 colorNamePattern.lastIndex = 0;
                 colorCodePattern.lastIndex = 0;
