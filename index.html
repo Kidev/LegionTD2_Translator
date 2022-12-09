@@ -503,8 +503,8 @@
   }
   function goToNextEmptyLine() {
     if (current_line < data_array.length - 1) {
-      let count = 0;
-      for (count = 0; current_line + count < data_array.length - 1; count++) {
+      let count = 1;
+      for (count = 1; current_line + count < data_array.length - 1; count++) {
         let tmp_line = current_line + count;
         if (data_array[tmp_line][data_headers[4]].trim().length === 0) {
           swapDataToLine(tmp_line);
@@ -515,8 +515,8 @@
   }
   function goToPreviousEmptyLine() {
     if (current_line > 1) {
-      let count = 0;
-      for (count = 0; current_line - count >= 1; count++) {
+      let count = 1;
+      for (count = 1; current_line - count >= 1; count++) {
         let tmp_line = current_line - count;
         if (data_array[tmp_line][data_headers[4]].trim().length === 0) {
           swapDataToLine(tmp_line);
