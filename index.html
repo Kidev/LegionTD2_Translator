@@ -413,13 +413,6 @@ Fighters have |c(ffcc00):icons|r that indicate their strengths.|n|n|img(small-ic
     updateRawData();
   }
 
-  $("#current_line_display").on("click", function() {
-    if (current_line > 0 && data_array.length > 0) {
-      const aNumber = parseInt(prompt("Go to line", current_line), 10);
-      updateCurrentLineIfPossible(aNumber);
-    }
-  });
-
   function updateCurrentLineIfPossible(val) {
     if (isNaN(val)) {
       val = 1;
@@ -607,6 +600,13 @@ Fighters have |c(ffcc00):icons|r that indicate their strengths.|n|n|img(small-ic
   });
   $("#next_empty_button").click(function() {
     goToNextEmptyLine();
+  });
+
+  $("#current_line_no").click(function() {
+    if (current_line > 0 && data_array.length > 0) {
+      const aNumber = parseInt(prompt("Go to line", current_line), 10);
+      updateCurrentLineIfPossible(aNumber);
+    }
   });
 
   $(document).keydown(function(event) {
