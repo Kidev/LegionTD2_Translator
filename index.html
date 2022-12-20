@@ -108,9 +108,9 @@
           <div class="col-md-12">
 
             <div>
-
               <input name="Load translations" type="file" id="csvFile" title="Import translations file to begin the translations" accept=".csv" height="0" hidden="true" />
-              <button id="csvFileButton" onclick="csvFile.click()" title="Import translations file to begin the translations" style="margin-bottom: 5px; float: left;">Load translations</button>
+
+              <button class="advanced_mode_elements" id="csvFileButton" onclick="csvFile.click()" title="Import translations file to begin the translations" style="margin-bottom: 5px; float: left;">Load translations</button>
 
               <label for="parser-mode-select" style="float: left; margin-top: 3px; margin-left: 40px; margin-right: 5px ">Parser:</label>
               <select id="parser-mode-select" style="float: left; margin-top: 3px; margin-bottom: 0px;">
@@ -118,7 +118,7 @@
                 <option value="bbcode">Steam</option>
               </select>
 
-              <button name="get-updated-csv" id="button_get_csv" title="Download Excel sheet updated with latest changes" style="float: right;">
+              <button class="advanced_mode_elements" name="get-updated-csv" id="button_get_csv" title="Download Excel sheet updated with latest changes" style="float: right;">
                 Save translations
               </button>
 
@@ -133,23 +133,28 @@
 
               <div class="card-body">
 
-                <div class="row" style="outline-style:solid; outline-width: thin; margin-left: 3px; margin-right: 3px; outline-offset: 5px; ">
+                <div class="advanced_mode_elements" >
 
-                  <button name="prev-empty-entry" id="previous_empty_button" title="Previous empty line" style="margin: 1px;">⦴</button>
-                  <button name="prev-translate-entry" id="previous_line_button" title="Previous line" style="margin: 1px;">🡄</button>
-                  <div class="column" style="width: 60px; left: 50%; text-align: center;" id="current_line_display">
-                  <p id="current_line_no" style="margin-top: -6px; margin-bottom: -12px; font-size: large; align-items: center">0</p>
-                  <br>
-                  <p id="total_lines_no" style="top: 100%; margin: -15px; font-size: small; font-weight: lighter">0</p>
-                  </div>
-                  <button name="next-translate-entry" id="next_line_button" title="Next line" style="margin: 1px;">🡆</button>
-                  <button name="next-empty-entry" id="next_empty_button" title="Next empty line" style="margin: 1px;">⦳</button>
+                  <div class="row" style="outline-style:solid; outline-width: thin; margin-left: 3px; margin-right: 3px; outline-offset: 5px; ">
 
-                  <div style="alignment: left; margin-top: 10px; text-align: left; margin-left: 40px;">
-                    <span id="lastCommentFromDevToolTip" title=""><span style="color:#9094a0; font-weight: bolder;">ⓘ</span></span>
-                    <span id="lineLastDescUpdate" style="color:#9094a0; min-width: 200px">&nbsp;&nbsp;&nbsp;</span>
+
+
+                    <button name="prev-empty-entry" id="previous_empty_button" title="Previous empty line" style="margin: 1px;">⦴</button>
+                    <button name="prev-translate-entry" id="previous_line_button" title="Previous line" style="margin: 1px;">🡄</button>
+                    <div class="column" style="width: 60px; left: 50%; text-align: center;" id="current_line_display">
+                    <p id="current_line_no" style="margin-top: -6px; margin-bottom: -12px; font-size: large; align-items: center">0</p>
+                    <br>
+                    <p id="total_lines_no" style="top: 100%; margin: -15px; font-size: small; font-weight: lighter">0</p>
+                    </div>
+                    <button name="next-translate-entry" id="next_line_button" title="Next line" style="margin: 1px;">🡆</button>
+                    <button name="next-empty-entry" id="next_empty_button" title="Next empty line" style="margin: 1px;">⦳</button>
+
+                    <div style="alignment: left; margin-top: 10px; text-align: left; margin-left: 40px;">
+                      <span id="lastCommentFromDevToolTip" title=""><span style="color:#9094a0; font-weight: bolder;">ⓘ</span></span>
+                      <span id="lineLastDescUpdate" style="color:#9094a0; min-width: 200px">&nbsp;&nbsp;&nbsp;</span>
+                    </div>
+                    <div style="alignment: left; color:#9094a0;  text-align: left; margin-top: 10px; margin-right: 5px; margin-left: 40px;"><span id="lineLastUpdateTime"></span></div>
                   </div>
-                  <div style="alignment: left; color:#9094a0;  text-align: left; margin-top: 10px; margin-right: 5px; margin-left: 40px;"><span id="lineLastUpdateTime"></span></div>
 
                 </div>
 
@@ -158,7 +163,28 @@
                 <div class="row" style="margin-top: -20px">
                   <div class="col-md-6">
                     <p style="font-weight: bold">Raw source:</p>
-                    <textarea id="rawText"></textarea>
+                    <textarea id="rawText" style="height: 800px">
+[b]Bold Text[/b] |n
+[bb]BB Span text[/bb] |n
+[ss]SS Span[/ss] |n
+|emoji(fine) |n
+|bigemoji(fine) |n
+|skullimg(Icons/SafetyMole.png) |n
+|desc(game_coach) |n
+|proper(centaur_unit) |n
+|item(mysterious_card_item_id) |n
+|img(Icons/aag.png) |n
+|smallimg(Icons/aag.png) |n
+|graphic(emotes/special/cheer.png) |n
+|bigimg(Icons/aag.png) |n
+|splash(help/bonus_income.png) |n
+|video(help/gold.webm) |n
+|flag(kr) |flag(de) |n
+|c(ffcc00):colored test|r |n
+Use |img(icons/SiegeRam.png) |proper(siege_ram_unit) to tank the massive |img(icons/Pierce.png) |proper(PierceAttack) damage from her |img(icons/Annihilator.png) |proper(annihilator_unit) units. Also, be prepared for extra powerful sends resulting from her bonus mythium generation. |n
+--- |n
+Fighters have |c(ffcc00):icons|r that indicate their strengths.|n|n|img(small-icons/role_tank.png)|c(ffcc00):|desc(role_tank)|r: high health, but low attack power|n|img(small-icons/role_dps.png)|c(ffcc00):|desc(role_dps)|r: high attack power, but low health|n|img(small-icons/role_balanced.png)|c(ffcc00):|desc(role_versatile)|r: good all-around stats|n|img(small-icons/role_aura.png)|c(ffcc00):|desc(role_aura)|r: supports nearby allies|n|img(small-icons/carry.png)|c(ffcc00):|desc(role_carry)|r: weak on its own, but powerful if supported|n|img(small-icons/aoe.png)|c(ffcc00):|desc(role_aoe)|r: deals area-of-effect damage|n|img(small-icons/mana.png)|c(ffcc00):|desc(role_mana_user)|r: uses mana for special abilities|n|nThese icons are displayed in your fighter bar:|n|splash(help/fighter_icons.png)|n|nAll fighters are |c(ffcc00):carefully balanced|r on a regular basis using a data-driven system, so there's no need to memorize numbers. Just remember these icons, along with |c(ffcc00):attack and defense types|r and you'll do great. |img(emotes/ok_hand.png)
+                    </textarea>
                   </div>
                   <div class="col-md-6">
                     <p style="font-weight: bold">Preview:</p>
@@ -168,14 +194,16 @@
 
                 <hr>
 
-                <div class="row" style="margin-top: -10px">
-                  <div class="col-md-6">
-                    <p style="font-weight: bold">Raw translation:</p>
-                    <textarea id="rawTextTranslateMe"></textarea>
-                  </div>
-                  <div class="col-md-6">
-                    <p style="font-weight: bold">Preview:</p>
-                    <div id="convertedTranslatedText"></div>
+                <div class="advanced_mode_elements" >
+                  <div class="row" style="margin-top: -10px">
+                    <div class="col-md-6">
+                      <p style="font-weight: bold">Raw translation:</p>
+                      <textarea id="rawTextTranslateMe"></textarea>
+                    </div>
+                    <div class="col-md-6">
+                      <p style="font-weight: bold">Preview:</p>
+                      <div id="convertedTranslatedText"></div>
+                    </div>
                   </div>
                 </div>
 
@@ -183,6 +211,10 @@
               </div>
 
             </div>
+
+            <button name="advanced_mode_button" id="advanced_mode_button" title="Enable advanced mode" style="float: left;">
+              Advanced mode
+            </button>
 
             <h5 class="title" style="margin-top: -20px">
               You can download translation files from the <a href="https://legiontd2.com/translate" target="_blank">Google Drive</a>
@@ -244,6 +276,32 @@
       $main_panel = $('.main-panel');
 
       $full_page = $('.full-page');
+
+      $advanced_elements = $(".advanced_mode_elements");
+      $advanced_elements.css({'display': 'none'});
+
+      /*
+      $("#rawText").val("[b]Bold Text[/b] |n\n" +
+        "[bb]BB Span text[/bb] |n\n" +
+        "[ss]SS Span[/ss] |n\n" +
+        "|emoji(fine) |n\n" +
+        "|bigemoji(fine) |n\n" +
+        "|skullimg(Icons/SafetyMole.png) |n\n" +
+        "|desc(game_coach) |n\n" +
+        "|proper(centaur_unit) |n\n" +
+        "|item(mysterious_card_item_id) |n\n" +
+        "|img(Icons/aag.png) |n\n" +
+        "|smallimg(Icons/aag.png) |n\n" +
+        "|graphic(emotes/special/cheer.png) |n\n" +
+        "|bigimg(Icons/aag.png) |n\n" +
+        "|splash(help/bonus_income.png) |n\n" +
+        "|video(help/gold.webm) |n\n" +
+        "|flag(kr) |flag(de) |n\n" +
+        "|c(ffcc00):colored test|r |n\n" +
+        "Use |img(icons/SiegeRam.png) |proper(siege_ram_unit) to tank the massive |img(icons/Pierce.png) |proper(PierceAttack) damage from her |img(icons/Annihilator.png) |proper(annihilator_unit) units. Also, be prepared for extra powerful sends resulting from her bonus mythium generation. |n\n" +
+        "--- |n\n" +
+        "Fighters have |c(ffcc00):icons|r that indicate their strengths.|n|n|img(small-icons/role_tank.png)|c(ffcc00):|desc(role_tank)|r: high health, but low attack power|n|img(small-icons/role_dps.png)|c(ffcc00):|desc(role_dps)|r: high attack power, but low health|n|img(small-icons/role_balanced.png)|c(ffcc00):|desc(role_versatile)|r: good all-around stats|n|img(small-icons/role_aura.png)|c(ffcc00):|desc(role_aura)|r: supports nearby allies|n|img(small-icons/carry.png)|c(ffcc00):|desc(role_carry)|r: weak on its own, but powerful if supported|n|img(small-icons/aoe.png)|c(ffcc00):|desc(role_aoe)|r: deals area-of-effect damage|n|img(small-icons/mana.png)|c(ffcc00):|desc(role_mana_user)|r: uses mana for special abilities|n|nThese icons are displayed in your fighter bar:|n|splash(help/fighter_icons.png)|n|nAll fighters are |c(ffcc00):carefully balanced|r on a regular basis using a data-driven system, so there's no need to memorize numbers. Just remember these icons, along with |c(ffcc00):attack and defense types|r and you'll do great. |img(emotes/ok_hand.png)\n" +
+        "                        ");*/
 
       $sidebar_responsive = $('body > .navbar-collapse');
       sidebar_mini_active = true;
@@ -525,6 +583,18 @@
       }
     }
   }
+
+  $("#advanced_mode_button").click(function() {
+    if ($advanced_elements.css('display') === "none") {
+      $advanced_elements.css({'display': 'block'});
+      $("#advanced_mode_button").css({'display': 'none'});
+      $("#rawText").val('');
+      convertText();
+      $("#rawText").css({'height':'100px'});
+    } /*else {
+      $advanced_elements.css({'display': 'none'});
+    }*/
+  });
 
   $("#previous_line_button").click(function() {
     goToPreviousLine();
